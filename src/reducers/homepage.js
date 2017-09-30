@@ -12,6 +12,9 @@ export default (state: CounterState = { value: 0 }, action: CounterAction) => {
       return { value: state.value + 1 };
 
     case ActionsTypes.ADD:
-      return { value: state.value + action.payload }
+      return { value: state.value + action.payload };
+
+    default:
+      return state;
   }
 }
