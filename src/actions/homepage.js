@@ -1,6 +1,7 @@
 // @flow
-import Actions from '../constants/ActionTypes';
+import * as Actions from '../constants/ActionTypes';
 
+// actions
 export type IncrementAction = {
   type: typeof Actions.INCREMENT
 }
@@ -10,16 +11,15 @@ export type AddAction = {
   payload: number
 }
 
-export type CounterAction = IncrementAction | AddAction
+export type CounterAction =
+  | IncrementAction
+  | AddAction
 
-export function increment(): IncrementAction {
+
+export function increment() {
   return { type: Actions.INCREMENT }
 }
 
-export async function incrementAsync(): Promise<IncrementAction> {
-  return { type: Actions.INCREMENT }
-}
-
-export function add(n: number): AddAction {
+export function add(n: number) {
   return { type: Actions.ADD, payload: n }
 }
