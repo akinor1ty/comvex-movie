@@ -23,3 +23,8 @@ export function increment() {
 export function add(n: number) {
   return { type: Actions.ADD, payload: n }
 }
+
+export const homepageActionCreators = {
+  increment,
+  add,
+};
