@@ -97,6 +97,11 @@
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-flow": "^6.23.0",
-    "eslint-plugin-flowtype": "^2.37.0"
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
+    "eslint-plugin-flowtype": "^2.37.0",
+    "power-assert": "^1.4.4",
+    "react-test-renderer": "^16.0.0",
+    "sinon": "^4.0.0"
   }
 }
