@@ -2,17 +2,28 @@
 import * as ActionsTypes from '../constants/ActionTypes';
 import type { CounterAction } from '../actions/homepage';
 
-type CounterState = { value: number }
+type Movie = {
+  backdrop_path: string,
+}
+type HomeState = {
+  movies: Array<Movie>,
+}
 
-export default (state: CounterState = { value: 0 }, action: CounterAction) => {
+const initialState: HomeState = {
+  movies: []
+};
+
+export default (state: HomeState = initialState, action: CounterAction) => {
 
   switch(action.type) {
 
-    case ActionsTypes.INCREMENT:
-      return { value: state.value + 1 };
+    case ActionsTypes.GET_MOVIES:
+      const { payload } = action;
 
-    case ActionsTypes.ADD:
-      return { value: state.value + action.payload };
+      return {
+        ...state,
+        movies: payload.results
+      };
 
     default:
       return state;
