@@ -5,13 +5,15 @@ import { shallow } from 'enzyme';
 import assert from 'power-assert';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import { Provider } from 'react-redux'
+import store from './stores/store';
 
 // For react v16, enzyme need this Adaptor so far.
 configure({ adapter: new Adapter() });
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  ReactDOM.render(<Provider store={store}><App /></Provider>, div);
 });
 
 it('has App class.', () => {
