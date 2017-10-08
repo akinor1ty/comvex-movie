@@ -14,7 +14,11 @@ const MovieItem = (props: MovieItemProps) => {
 
   return (
     <div>
-      <img alt="Image not found" src={ `${baseUrl}/${posterPath}` } />
+      <img alt="Image not found"
+           src={ `${baseUrl}/${posterPath}` }
+           height="300"
+           width="200"
+      />
       <div>title: { title }</div>
       <div>vote average: { voteAverage }</div>
       <div>genres: { genres.filter((g, i) => i < 2).map(g => g.name).join(', ') }</div>
