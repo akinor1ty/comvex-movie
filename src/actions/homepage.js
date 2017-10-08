@@ -1,7 +1,7 @@
 // @flow
 import * as Actions from '../constants/ActionTypes';
 import { getMoviesRequest, getGenresRequest, searchMoviesRequest } from '../api/discover';
-import type { Dispatch, GetState } from 'redux-thunk';
+import type { Dispatch, GetState, Thunk } from 'redux-thunk';
 
 export type GetMovieAction = {
   type: typeof Actions.GET_MOVIES,
@@ -60,24 +60,19 @@ export function searchMoviesFail(error: any) {
   return { type: Actions.SEARCH_MOVIES_FAIL, error }
 }
 
+export function getGenres() {
+  return (dispatch: Dispatch) => getGenresRequest()
+    .then(response => response.data)
+    .then(data => dispatch(getGenresSuccess(data)))
+    .catch(error => console.error(error));
+}
+
 export function searchMovies() {
   return (dispatch: Dispatch, getState: GetState) => {
     const { searchQuery } = getState().homepage;
     const params = {
       query: searchQuery
     };
-
-    const { genres } = getState().homepage;
-    if(! genres.length) {
-      return getGenresRequest()
-        .then(response => response.data)
-        .then(data => dispatch(getGenresSuccess(data)))
-        .then(() => searchMoviesRequest(params)
-          .then(response => response.data)
-          .then(data => dispatch(searchMoviesSuccess(data)))
-          .catch(error => dispatch(searchMoviesFail(error)))
-        .catch(error => dispatch(searchMoviesFail(error))));
-    }
 
     return searchMoviesRequest(params)
       .then(response => response.data)
@@ -105,29 +100,14 @@ export function getMovie() {
       params.with_genres = filterWith;
     }
 
-    // does not have genres, fetch them first
-    // then fetch movies
-    const { genres } = getState().homepage;
-    if(! genres.length) {
-      return getGenresRequest(params)
-        .then(response => response.data)
-        .then(data => dispatch(getGenresSuccess(data)))
-        .then(() => getMoviesRequest(params))
-          .then(response => response.data)
-          .then(data => dispatch(getMovieSuccess(data)))
-          .catch(error => dispatch(getMovieFail()))
-        .catch(error => console.error(error));
-    }
-
     return getMoviesRequest(params)
       .then(response => response.data)
       .then(data => dispatch(getMovieSuccess(data)))
       .catch(error => dispatch(getMovieFail()));
-
   }
 }
 
 
 export const homepageActionCreators = {
-  getMovie, setSorting, setFiltering, searchMovies, setSearchQuery
+  getMovie, setSorting, setFiltering, searchMovies, setSearchQuery, getGenres
 };

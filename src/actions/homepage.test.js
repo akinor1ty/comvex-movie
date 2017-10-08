@@ -38,13 +38,6 @@ describe('Async actions', () => {
     });
 
     it('should create actions to set fetched movies and genres', () => {
-      moxios.stubRequest(/.*\/movie\/list.*/, {
-        status: 200,
-        response: {
-          genres: []
-        }
-      });
-
       moxios.stubRequest(/.*\/discover\/movie.*/, {
         status: 200,
         response: {
@@ -54,28 +47,9 @@ describe('Async actions', () => {
       });
 
       const expected = [
-        { type: ActionTypes.GET_GENRES_SUCCESS, data: { genres: [] } },
         { type: ActionTypes.GET_MOVIES_SUCCESS, payload: { page: 1, results: [] } }
       ];
       const store = mockStore({ homepage: { sortBy: null, genres: [], filterWith: null }});
-
-      return store.dispatch(actionCreators.getMovie())
-        .then(() => deepEqual(store.getActions(), expected))
-    });
-
-    it('should create an action to set fetched movies', () => {
-
-      moxios.stubRequest(/.*\/discover\/movie.*/, {
-        status: 200,
-        response: {
-          page: 1,
-          results: []
-        }
-      });
-      const expected = [
-        { type: ActionTypes.GET_MOVIES_SUCCESS, payload: { page: 1, results: [] } }
-      ];
-      const store = mockStore({ homepage: { sortBy: null, genres: [1], filterWith: null }});
 
       return store.dispatch(actionCreators.getMovie())
         .then(() => deepEqual(store.getActions(), expected))
@@ -92,47 +66,40 @@ describe('Async actions', () => {
     });
 
     it('should create actions to set fetched movies and genres', () => {
+
+      moxios.stubRequest(/.*\/search\/movie.*/, {
+        status: 200,
+        response: {
+          page: 1,
+          results: []
+        }
+      });
+
+      const expected = [
+        {type: ActionTypes.SEARCH_MOVIES_SUCCESS, payload: {page: 1, results: []}}
+      ];
+      const store = mockStore({homepage: {sortBy: null, genres: [], filterWith: null}});
+
+      return store.dispatch(actionCreators.searchMovies())
+        .then(() => deepEqual(store.getActions(), expected))
+    });
+  });
+  describe('Get genres', () => {
+    it('should create an action to set fetched genres', () => {
+
       moxios.stubRequest(/.*\/movie\/list.*/, {
         status: 200,
         response: {
           genres: []
         }
       });
-
-      moxios.stubRequest(/.*\/search\/movie.*/, {
-        status: 200,
-        response: {
-          page: 1,
-          results: []
-        }
-      });
-
       const expected = [
         { type: ActionTypes.GET_GENRES_SUCCESS, data: { genres: [] } },
-        { type: ActionTypes.SEARCH_MOVIES_SUCCESS, payload: { page: 1, results: [] } }
       ];
-      const store = mockStore({ homepage: { sortBy: null, genres: [], filterWith: null }});
+      const store = mockStore({homepage: {sortBy: null, genres: [], filterWith: null}});
 
-      return store.dispatch(actionCreators.searchMovies())
-        .then(() => deepEqual(store.getActions(), expected))
-    });
-
-    it('should create an action to set fetched movies', () => {
-
-      moxios.stubRequest(/.*\/search\/movie.*/, {
-        status: 200,
-        response: {
-          page: 1,
-          results: []
-        }
-      });
-      const expected = [
-        { type: ActionTypes.SEARCH_MOVIES_SUCCESS, payload: { page: 1, results: [] } }
-      ];
-      const store = mockStore({ homepage: { sortBy: null, genres: [1], filterWith: null }});
-
-      return store.dispatch(actionCreators.searchMovies())
-        .then(() => deepEqual(store.getActions(), expected))
+      return store.dispatch(actionCreators.getGenres())
+        .then(() => assert(store.getActions(), expected))
     });
   });
 });
