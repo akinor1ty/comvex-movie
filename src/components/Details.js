@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 
+class Details extends Component {
+  componentWillMount() {
+    console.log('dispatch')
+  }
 
-const Details = (props) => {
-  console.log(props.match.params.id);
-  return <div>details</div>
+  render() {
+    console.log(this.props.match.params.id);
+    return (
+      <div>
+        <Link to="/">
+          <button>Back</button>
+        </Link>
+        details
+      </div>
+    );
+  }
 };
 
 export default Details;
