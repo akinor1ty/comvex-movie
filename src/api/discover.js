@@ -32,4 +32,31 @@ function searchMoviesRequest(params) {
   });
 }
 
-export { getMoviesRequest, getGenresRequest, searchMoviesRequest };
+function fetchMovies(id) {
+  return axios.get(`${baseUrl}/movie/${id}`, {
+    params: {
+      api_key: apiKey,
+    }
+  });
+}
+
+function fetchImages(id) {
+  return axios.get(`${baseUrl}/movie/${id}/images`, {
+    params: {
+      api_key: apiKey,
+    }
+  });
+}
+
+function fetchCasts(id) {
+  return axios.get(`${baseUrl}/movie/${id}/credits`, {
+    params: {
+      api_key: apiKey,
+    }
+  });
+}
+
+export {
+  getMoviesRequest, getGenresRequest, searchMoviesRequest,
+  fetchMovies, fetchImages, fetchCasts,
+};
