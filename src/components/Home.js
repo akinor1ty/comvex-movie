@@ -5,9 +5,9 @@ import SelectOption from './SelectOption';
 import MovieItem from './MovieItem';
 import Waypoint from 'react-waypoint';
 import type { Movie } from '../types/home';
-
+import Search from './Search';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 type HomeState = {
-
 }
 
 type HomeProps = {
@@ -37,20 +37,12 @@ class Home extends Component<HomeProps, HomeState> {
     getMovie();
   }
 
-  handleOnKeyDown(e: SyntheticEvent<any>) {
-    if(e.key === 'Enter') {
-      this.onEnter(e.target.value);
-    }
-  }
-
-  onEnter(value: string) {
+  onSearch(value: string) {
     const { setSearchQuery, searchMovies } = this.props;
 
     // if search query is input, do searching
-    if (value.length) {
-      setSearchQuery(value);
-      searchMovies();
-    }
+    setSearchQuery(value);
+    searchMovies();
   }
 
   handleOnEnterWayPoint() {
@@ -64,25 +56,36 @@ class Home extends Component<HomeProps, HomeState> {
     return searching ? searchMovies() : getMovie();
   }
 
+  handleSearchChange(value) {
+    const { searchQuery, setSearchQuery } = this.props;
+
+    if(value !== searchQuery) {
+      setSearchQuery(value);
+    }
+  }
 
   render() {
-    const { movies, genres, sortOptions } = this.props;
+    const { movies, genres, sortOptions, filterWith, sortBy, searchQuery, setSearchQuery } = this.props;
+    const genreOptions = genres.map(g => ({ value: g.id, label: g.name }));
     return (
-      <div>
-        <input  type="text" onKeyDown={ e => this.handleOnKeyDown(e) }/>
-        <Select label="Order by" name="sort" onChange={ value => this.handleChangeOrderBy(value)  }>
-          {
-            sortOptions.map(op => <SelectOption key={ op.value } value={ op.value }>{ op.label }</SelectOption>)
-          }
-        </Select>
-        <Select label="Filter by" name="filter" onChange={ value => this.handleChangeFilter(value) }>
-          {
-            genres.map(op => <SelectOption key={ op.id } value={ '' + op.id }>{ op.name }</SelectOption>)
-          }
-        </Select>
-        {
-          movies.map((movie: Movie) => <MovieItem key={ movie.id } movie={ movie } />)
-        }
+      <div className="home">
+        <div className="sub-header">
+          <h1 className="heading">All Movies</h1>
+          <Search searchingValue={ searchQuery }
+                  onSearch={ value => this.onSearch(value) }
+                  onClose={ () => setSearchQuery(null) }
+                  onChange={ value => this.handleSearchChange(value) }
+          />
+        </div>
+        <Select value={ sortBy } options={ sortOptions } label="Order by" name="sort" onSelect={ value => this.handleChangeOrderBy(value)  }/>
+        <Select value={ filterWith } options={ genreOptions } label="Filter by" name="filter" onSelect={ value => this.handleChangeFilter(value) }/>
+        <Grid fluid className="grid-container">
+          <Row>
+            {
+              movies.map((movie: Movie) => <Col xs={6} md={3} key={ movie.id }><MovieItem movie={ movie } /></Col>)
+            }
+          </Row>
+        </Grid>
         <Waypoint onEnter={ () => this.handleOnEnterWayPoint() } />
       </div>
     )

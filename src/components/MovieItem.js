@@ -16,15 +16,19 @@ const MovieItem = (props: MovieItemProps) => {
   return (
     <div>
       <Link to={ `/movie/${id}`}>
-        <img alt="Image not found"
-             src={ `${baseUrl}/${posterPath}` }
-             height="300"
-             width="200"
-        />
+        <div className="movie-item">
+          <img className="movie-item__image" alt="Image not found"
+               src={ `${baseUrl}/${posterPath}` }
+          />
+          <div className="movie-item__vote-average">
+            <div className="movie-item__vote-average__number">
+              { voteAverage }
+            </div>
+          </div>
+        </div>
       </Link>
-      <div>title: { title }</div>
-      <div>vote average: { voteAverage }</div>
-      <div>genres: { genres.filter((g, i) => i < 2).map(g => g.name).join(', ') }</div>
+      <div className="movie-item__title">{ title }</div>
+      <div className="movie-item__genre">{ genres.filter((g, i) => i < 2).map(g => g.name).join(', ') }</div>
     </div>
   );
 };
