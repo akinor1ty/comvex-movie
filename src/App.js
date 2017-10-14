@@ -18,8 +18,11 @@ class App extends Component<Props, State> {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route exact path={'/'} component={Home} />
-          <Route path={'/movie/:id'} component={Details} />
+          <div className="header">Movies</div>
+          <div className="content">
+            <Route exact path={'/'} component={Home} />
+            <Route path={'/movie/:id'} component={Details} />
+          </div>
         </div>
       </BrowserRouter>
     );

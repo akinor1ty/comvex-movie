@@ -96,7 +96,7 @@ export function getMovie() {
     if(sortBy) {
       params.sort_by = sortBy;
     }
-    if(filterWith) {
+    if(filterWith !== -1) {
       params.with_genres = filterWith;
     }
 

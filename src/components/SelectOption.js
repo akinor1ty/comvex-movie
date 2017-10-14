@@ -7,10 +7,10 @@ type SelectOptionProps = {
 }
 
 const SelectOption = (props: SelectOptionProps) => {
-  const { value, children } = props;
+  const { value, children, onClick } = props;
 
   return (
-    <option value={ value }>{ children }</option>
+    <div className="dropdown__option" onClick={ () => onClick } value={ value }>{ children }</div>
   );
 };
 
