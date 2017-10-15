@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col }from 'react-flexbox-grid';
-const baseUrl = 'https://image.tmdb.org/t/p/w500';
+import Lightbox from 'react-images';
+
+const baseUrl = 'https://image.tmdb.org/t/p/w300';
 
 class Details extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      lightboxIsOpen: false,
+      currentImage: 0,
+    }
+  }
   componentWillMount() {
     const { match, getDetails, getCasts, getImages } = this.props;
     const { id } = match.params;
@@ -12,26 +23,95 @@ class Details extends Component {
     getImages(id);
   }
 
+  openLightbox(imageIndex) {
+    this.setState({
+      lightboxIsOpen: true,
+      currentImage: imageIndex
+    })
+  }
+
+  onClickPrev() {
+    const { currentImage } = this.state;
+    this.setState({
+      currentImage: currentImage - 1
+    })
+  }
+
+  onClickNext() {
+    const { currentImage } = this.state;
+    this.setState({
+      currentImage: currentImage + 1
+    })
+  }
+  closeLightbox() {
+    this.setState({
+      lightboxIsOpen: false
+    })
+  }
+
   render() {
     const {
       title, overview, genres, runtime, releaseDate, casts,
       voteAverage, backDrops
     } = this.props;
+
+    const { currentImage } = this.state;
+
+    const ligthtboxTheme = {
+      arrow__size__medium: {
+        borderRadius: 40,
+        height: 40,
+        marginTop: -20,
+
+        '@media (min-width: 768px)': {
+          height: 70,
+          padding: 15,
+        },
+      },
+      arrow__direction__left: { marginLeft: 250 },
+      arrow__direction__right: { marginRight: 250 },
+      close: {
+        fill: '#d3c348'
+      }
+    };
     return (
-      <Grid>
+      <Grid fluid>
         <Row>
-          <Col xs={ 4 }>
+          <Col xs={ 12 } sm={ 4 }>
             <Row>
-              {
-                backDrops.map(bd => (
-                  <Col>
-                    <img width={ 200 } alt="image not found" src={ baseUrl + bd.filePath } />
-                  </Col>
-                ))
-              }
+              <Col>
+                <div className="details__images">
+                  { backDrops[0] ? <img className="details__images__image details__images__image__top-left"
+                                        alt="image not found"
+                                        src={ baseUrl + backDrops[0].filePath } 
+                                        onClick={ () => this.openLightbox(0) } /> :null }
+
+                  { backDrops[1] ? <img className="details__images__image details__images__image__top-right"
+                                        alt="image not found"
+                                        src={ baseUrl + backDrops[1].filePath }
+                                        onClick={ () => this.openLightbox(1) } /> : null }
+                  { backDrops[2] ? <img className="details__images__image details__images__image__bottom-left"
+                                        alt="image not found"
+                                        src={ baseUrl + backDrops[2].filePath }
+                                        onClick={ () => this.openLightbox(2) } /> : null }
+                  { backDrops[3] ? <img className="details__images__image details__images__image__bottom-right"
+                                        alt="image not found"
+                                        src={ baseUrl + backDrops[3].filePath }
+                                        onClick={ () => this.openLightbox(3) } /> : null }
+                </div>
+              </Col>
+              <Lightbox images={ backDrops.map(bd => ({ src: baseUrl + bd.filePath }))}
+                        isOpen={ this.state.lightboxIsOpen }
+                        onClose={ () => this.closeLightbox() }
+                        currentImage={ currentImage }
+                        onClickPrev={ () => this.onClickPrev() }
+                        onClickNext={ () => this.onClickNext() }
+                        theme={ ligthtboxTheme }
+                        showImageCount={ false }
+              />
             </Row>
           </Col>
-          <Col xs={ 8 }>
+          <Col xs={ 1 } sm={ 8 }>
             <Link to="/">
               <div className="back-to-home">
                 <a className="arrow arrow--left" />
