@@ -424,8 +424,6 @@
     display: -webkit-flex;
     display: flex;
     align-items: center;
-    //-webkit-justify-content: space-between;
-    //justify-content: space-between;
 
     &__image {
       height: 50px;
@@ -453,13 +451,43 @@
     }
 
   }
+}
 
+.details__images {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-    //&__name {
-      //width: 200px;
-      //line-height: 4em;
-    //}
+  &__image {
+    cursor: pointer;
+    margin-bottom: 0.5em;
+    -webkit-filter: grayscale(1); /* Webkit */
+    filter: #848183; /* IE6-9 */
+    filter: grayscale(1); /* W3C */
 
-  //}
+    &:hover {
+      webkit-filter: grayscale(0); /* Webkit */
+      filter: none; /* IE6-9 */
+      filter: grayscale(0); /* W3C */
+    }
+
+    &__top-left {
+      width: 59%;
+      object-fit: fill;
+    }
+    &__top-right {
+      width: 39%;
+      object-fit: cover;
+    }
+    &__bottom-left {
+      width: 39%;
+      object-fit: cover;
+    }
+    &__bottom-right {
+      width: 59%;
+      object-fit: fill;
+    }
+  }
 
 }
