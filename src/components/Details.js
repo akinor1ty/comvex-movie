@@ -75,7 +75,7 @@ class Details extends Component {
       }
     };
     return (
-      <Grid fluid>
+      <Grid>
         <Row>
           <Col xs={ 12 } sm={ 4 }>
             <Row>
@@ -111,7 +111,7 @@ class Details extends Component {
               />
             </Row>
           </Col>
-          <Col xs={ 1 } sm={ 8 }>
+          <Col xs={ 12 } sm={ 8 }>
             <Link to="/">
               <div className="back-to-home">
                 <a className="arrow arrow--left" />

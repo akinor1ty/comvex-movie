@@ -82,7 +82,7 @@ class Home extends Component<HomeProps, HomeState> {
         <Grid fluid className="grid-container">
           <Row>
             {
-              movies.map((movie: Movie) => <Col xs={6} md={3} key={ movie.id }><MovieItem movie={ movie } /></Col>)
+              movies.map((movie: Movie) => <Col xs={12} sm={6} md={3} key={ movie.id }><MovieItem movie={ movie } /></Col>)
             }
           </Row>
         </Grid>
