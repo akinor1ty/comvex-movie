@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import Select from './Select';
-import SelectOption from './SelectOption';
 import MovieItem from './MovieItem';
 import Waypoint from 'react-waypoint';
 import type { Movie } from '../types/home';

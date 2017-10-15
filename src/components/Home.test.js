@@ -6,6 +6,7 @@ import Select from './Select';
 import assert from 'power-assert';
 import Waypoint from 'react-waypoint';
 import sinon from 'sinon';
+import Search from './Search'
 
 // For react v16, enzyme need this Adaptor so far.
 configure({ adapter: new Adapter() });
@@ -20,8 +21,7 @@ describe('<Home>', () => {
     };
     const wrapper = shallow(<Home { ..._props } />);
 
-    assert(wrapper.find('div').length === 1);
-    assert(wrapper.find('input').length === 1);
+    assert(wrapper.find('div').length === 2);
     assert(wrapper.find(Select).length === 2);
     assert(wrapper.find(Waypoint).length === 1);
 
@@ -43,7 +43,7 @@ describe('<Home>', () => {
     assert(orderBy.props().label === 'Order by');
     assert(orderBy.props().name === 'sort');
 
-    orderBy.simulate('change', 'test');
+    orderBy.simulate('select', 'test');
     assert(setSorting.calledWith('test'));
     assert(getMovie.called);
   });
@@ -63,7 +63,7 @@ describe('<Home>', () => {
     assert(filterWith.props().label === 'Filter by');
     assert(filterWith.props().name === 'filter');
 
-    filterWith.simulate('change', 'test');
+    filterWith.simulate('select', 'test');
     assert(setFiltering.calledWith('test'));
     assert(getMovie.called);
   });
@@ -79,10 +79,10 @@ describe('<Home>', () => {
       setSearchQuery: setSearchQuery,
     };
     const wrapper = shallow(<Home { ..._props } />);
-    const searchBox = wrapper.find('input');
-    assert(searchBox.props().type === 'text');
+    const searchBox = wrapper.find(Search);
+    // assert(searchBox.props().type === 'text');
 
-    searchBox.simulate('keyDown', { target: { value: 'test' }, key: 'Enter' });
+    searchBox.simulate('search', 'test');
     assert(setSearchQuery.calledWith('test'));
     assert(searchMovies.called);
   });

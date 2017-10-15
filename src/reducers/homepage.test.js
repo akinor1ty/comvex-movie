@@ -15,8 +15,8 @@ describe('homepage reducer', () => {
         { value: 'vote_average.desc', label: 'Vote average' },
         { value: 'popularity.desc', label: 'Popularity' },
       ],
-      sortBy: null,
-      filterWith: null,
+      sortBy: 'original_title.asc',
+      filterWith: -1,
       searchQuery: null,
       searching: false,
     };
@@ -30,7 +30,7 @@ describe('homepage reducer', () => {
         genres: ['test']
       }
     };
-    deepEqual(reducer(undefined, action).genres, ['test']);
+    deepEqual(reducer(undefined, action).genres, [{"id": -1, "name": "All Genre"}, "test"]);
   });
 
   it('should set movies on success', () => {
